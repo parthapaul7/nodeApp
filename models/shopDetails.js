@@ -1,6 +1,6 @@
 const mongoose = require('mongoose');
 
-var UserSchema = new mongoose.Schema({
+var ShopSchema = new mongoose.Schema({
     name: { type:String, required: true },
     email: { type:String, required: true },
     number_: { type:String, required: true },
@@ -13,12 +13,14 @@ var UserSchema = new mongoose.Schema({
     orders_: { type:String, required: true },
     open_time: { type:String, required: true },
     close_time: { type:String, required: true },
-    upi_id:{ type:String, required: true } 
+    upi_id:{ type:String, required: true },
+    rating: { type:String, required: true },
+    image: { type:String, required: true },
 }, {
     timestamps: true
 });
 
 
 
-var User = mongoose.model('User', UserSchema);
-module.exports = User;
+var Shop= mongoose.model('Shop', ShopSchema);
+module.exports = Shop;
