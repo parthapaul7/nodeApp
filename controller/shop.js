@@ -29,7 +29,7 @@ exports.postShop = async(req, res, next) => {
 
 exports.getShopWithId = async(req, res, next) => {
     try {
-        const shop = await ShopDetails.findById(req.params.id);
+        const shop = await ShopDetails.findById(req.params.id).populate('products');
 
         if (!shop) {
             return res.status(404).json({
