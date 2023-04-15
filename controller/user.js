@@ -41,7 +41,7 @@ exports.postUser = async(req, res, next) => {
 exports.getUserWithId = async(req, res, next) => {
 
     try {
-        const user = await User.findById(req.params.id);
+        const user = await User.findById(req.params.id).populate('orders');
         return res.status(200).json({
             status: "success",
             data: user
