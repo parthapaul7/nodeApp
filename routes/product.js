@@ -16,6 +16,8 @@ router.get("/product/:id",  productController.getProductWithId);
 
 router.get("/search/:search",  productController.searchProduct);
 
+router.get("/category/:category",  productController.searchCategory);
+
 // router.get("/doctor", check, isDoctor, homeController.getDoctor);
 
 //route with no check 

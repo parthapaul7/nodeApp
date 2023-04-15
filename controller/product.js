@@ -20,8 +20,12 @@ exports.getProduct = async(req, res, next) => {
 }
 
 exports.postProduct = async(req, res, next) => {
+
+    let { category_ } = req.body;
+    category_ = category_.toLowerCase();
+
     try {
-        const product = await ProductDetails.create(req.body);
+        const product = await ProductDetails.create({...req.body,category_ });
         return res.status(200).json({
             status: "success",
             data: product
@@ -81,4 +85,19 @@ exports.searchProduct = async(req, res, next) => {
 
 }
     
+exports.searchCategory = async(req, res, next) => {
+    try {
+        const products = await ProductDetails.find({ category_: req.params.category.toLowerCase() });
+        return res.status(200).json({
+            status: "success",
+            data: products
+        });
+    } catch (error) {
+        return res.status(500).json({
+            status: "error",
+            message: "some error occurred",
+            error: error
+        });
+    }
+}
 
