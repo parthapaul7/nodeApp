@@ -53,11 +53,13 @@ app.set("views", "views");
 const productRouter = require("./routes/product");
 const homeRouter = require("./routes/home");
 const userRouter = require("./routes/user");
+const orderRouter = require("./routes/order");
 
 // // Routes
 app.use("/", productRouter);
 app.use("/", homeRouter);
 app.use("/", userRouter);
+app.use("/", orderRouter);
 
 // Catch 404 and forward to error handler
 const notFoundCtrl = require("./controller/error");
