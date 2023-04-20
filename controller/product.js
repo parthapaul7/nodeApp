@@ -1,4 +1,5 @@
 const ProductDetails = require('../models/productDetails');
+const Shop = require('../models/shopDetails');
 
 exports.getProduct = async(req, res, next) => {
     try {
@@ -22,10 +23,23 @@ exports.getProduct = async(req, res, next) => {
 exports.postProduct = async(req, res, next) => {
 
     let { category_ } = req.body;
-    category_ = category_.toLowerCase();
+    category_ = category_.tolowercase();
 
     try {
-        const product = await ProductDetails.create({...req.body,category_ });
+        const product = await productDetails.create({...req.body,category_ });
+
+        const product_id = product._id;
+        const shopUpdate = await Shop.updateOne({_id : req.body.shop_id},{
+            $push: {products : product_id}
+        })
+
+        if(!shopUpdate.acknowledged) {
+            return res.status(500).json({
+                status: "error",
+                message: "some error occurred",
+        });
+        }
+
         return res.status(200).json({
             status: "success",
             data: product
@@ -40,6 +54,66 @@ exports.postProduct = async(req, res, next) => {
         
     }
 }
+
+exports.updateProduct = async(req, res, next) => {
+    let { category_ } = req.body;
+    category_ = category_.tolowercase();
+
+    let { shop_id } = req.body;
+
+    if(shop_id) {
+        return res.status(500).json({
+            status: "error",
+            message: "shop_id cannot be updated",
+    }); 
+    }
+
+    try {
+        const product = await productDetails.updateOne({ _id: req.params.id},{...req.body,category_ });
+
+        return res.status(200).json({
+            status: "success",
+            data: product
+        });
+        
+    } catch (error) {
+         return res.status(500).json({
+            status: "error",
+            message: "some error occurred",
+            error: error
+        });
+        
+    }
+}
+
+
+exports.deleteProduct = async(req, res, next) => {
+    try {
+        const product = await productDetails.deleteOne({ _id: req.params.id});
+        
+        const shopUpdate = await Shop.updateOne({_id : req.body.shop_id},{
+            $pull: {products : req.params.id}
+        })
+
+        if( !shopUpdate.acknowledged) {
+            return res.status(500).json({
+                status: "error",
+                message: "some error occurred",
+        });
+     }
+        return res.status(200).json({
+            status: "success",
+            data: product
+        });
+    } catch (error) {
+            return res.status(500).json({
+            status: "error",
+            message: "some error occurred",
+            error: error
+        });
+    }
+}
+
 
 exports.getProductWithId = async(req, res, next) => {
     try {

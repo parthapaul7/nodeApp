@@ -10,6 +10,9 @@ router.post("/order",  orderController.postOrder);
 
 router.get("/order/:id",  orderController.getOrderWithId);
 
+router.delete("/order/:id",  orderController.deleteOrder);
+
+
 
 //route with no check 
 

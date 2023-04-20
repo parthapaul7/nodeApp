@@ -17,6 +17,10 @@ router.get("/search/:search",  productController.searchProduct);
 
 router.get("/category/:category",  productController.searchCategory);
 
+router.post("/product/:id",  productController.updateProduct);
+
+router.delete("/product/:id",  productController.deleteProduct);
+
 //route with no check 
 
 
